@@ -1,10 +1,9 @@
 <?php
-session_start();
 // Create connection
-$con = mysqli_connect("localhost", "root", "", "mhsp");
+$conn = mysqli_connect("localhost", "root", "", "mhsp");
 
 // Check connection
-if (!$con) {
+if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
@@ -21,16 +20,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"])) {
 
     $logPassword = test_input($_POST["logPassword"]);
 
-    // Retrieve password from the database based on the entered Email
-    $sqlPassword = "SELECT * FROM users WHERE email = '$logEmail'";
-    $result = mysqli_query($con, $sqlPassword);
-    $row = mysqli_fetch_assoc($result);
-    $password = $row['password'];
-    $name = $row['name'];
+    // Retrieve hashed password from the database based on the entered Email
+    $sql = "SELECT password FROM users WHERE email = ?";
+    $stmt = $conn->prepare("SELECT password FROM users WHERE email = ?");
+    $stmt->bind_param("s", $logEmail);
+    $stmt->execute();
+    $stmt->bind_result($password);
+    $stmt->fetch();
+    if ($stmt->num_rows > 0) {
+        $logPasswordErr = "Wrong email or password";
+    }
+    $stmt->close();
 
-    // Verify the entered password against the hashed password
-    if ($logPassword===$password) {
+    // Retrieve name from the database based on the entered Email
+    $stmt = $conn->prepare("SELECT name FROM users WHERE email = ?");
+    $stmt->bind_param("s", $logEmail);
+    $stmt->execute();
+    $stmt->bind_result($name);
+    $stmt->fetch();
+    $stmt->close();
+    // Verify the entered password against the password from database
+    if ($logPassword == $password) {
         // Password is correct, redirect to the home page or perform other actions
+        session_start();
         $_SESSION["username"] = $name;
         header("Location: index.php");
         exit();
@@ -49,7 +61,7 @@ function test_input($data) {
 }
 
 // Close the database connection
-mysqli_close($con);
+mysqli_close($conn);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -72,20 +84,19 @@ mysqli_close($con);
                 document.getElementById("logEmailErr").innerText = "Email is required";
                 return false;
             }
+            var mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if(!(logEmail.match(mailFormat)))
+            {
+                document.getElementById("logEmailErr").innerText = "Please enter a valid email";
+                return false;
+            }
 
             // Validate Password
             if (logPassword === "") {
                 document.getElementById("logPasswordErr").innerText = "Password is required";
                 return false;
             }
-
-            // Display server-side email error if it exists
-            var passwordError = "<?php echo $logPasswordErr; ?>";
-            if (passwordError !== "") {
-                document.getElementById("logPasswordErr").innerText = passwordError;
-                return false;
-            }
-
+            
             return true;
         }
     </script> 
@@ -101,8 +112,8 @@ mysqli_close($con);
             <br><br>
 
             <label for="logPassword">Password:</label>
-            <input type="password" name="logPassword" id="logPassword">
-            <span class="error" id="logPasswordErr"></span>
+            <input type="password" name="logPassword" id="logPassword" value="<?php echo $logPassword; ?>">
+            <span class="error" id="logPasswordErr"><?php echo $logPasswordErr; ?></span>
             <br><br>
 
             <input class="submit-button" type="submit" name="login" value="Login">

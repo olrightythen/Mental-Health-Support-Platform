@@ -9,10 +9,11 @@
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-            background-image: url(images/bg4.jpg);
+            background-image: url(images/bg1.jpg);
             background-repeat: no-repeat;
             background-size: cover;
-            backdrop-filter: blur(25px);
+           // background-position: center;
+            backdrop-filter: blur(5px);
             height: 100vh;
         }
 
@@ -26,7 +27,7 @@
         }
 
         header h1 {
-            color: #fff;
+            color: 	#d7f4ff;
             margin: 0;
             font-size: 1.8em;
         }
@@ -46,13 +47,13 @@
 
         #content h1 {
             font-size: 3em;
-            color: #9CFF2E;
+            color: #ee4b2b;
             margin-bottom: 20px;
         }
 
         #content p {
             font-size: 1.2em;
-            color: #B5FE83;
+            color: 	#f4562f;
             margin-bottom: 40px;
         }
 
@@ -99,7 +100,7 @@
 <body>
     <header>
         <h1>Mental Health Support Platform</h1>
-        <a href="admin_login.php" id="admin-login">Admin Login</a>
+        <a href="admin/login.php" id="admin-login">Admin Login</a>
     </header>
 
     <div id="content">

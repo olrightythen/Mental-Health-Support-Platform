@@ -1,12 +1,12 @@
 <?php
+
 // Create connection
-$con = mysqli_connect("localhost", "root", "", "mhsp");
+$conn = new mysqli("localhost", "root", "", "mhsp");
 
 // Check connection
-if (!$con) {
-    die("Connection failed: " . mysqli_connect_error());
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
-
 
 $regName = $regEmail = $regPassword = $confirmPassword = "";
 
@@ -17,21 +17,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["register"])) {
     $regName = test_input($_POST["regName"]);
     
     $regEmail = test_input($_POST["regEmail"]);
-    $checkEmailQuery = "SELECT * FROM users WHERE email = '$regEmail'";
-    $checkEmailResult = mysqli_query($con, $checkEmailQuery);
-    $rowEmail = mysqli_fetch_assoc($checkEmailResult);
-    if ($rowEmail) {
+    $checkEmailQuery = "SELECT * FROM users WHERE email = ?";
+    $checkEmailStmt = $conn->prepare($checkEmailQuery);
+    $checkEmailStmt->bind_param("s", $regEmail);
+    $checkEmailStmt->execute();
+    $checkEmailResult = $checkEmailStmt->get_result();
+    if ($checkEmailResult->num_rows > 0) {
         $regEmailErr = "Email is already taken";
     }
-
-    mysqli_free_result($checkEmailResult);
+    // Close the statement
+    $checkEmailStmt->close();
     
     $regPassword = test_input($_POST["regPassword"]);
 
     if (empty($regEmailErr)) {
-        $password=$regPassword;
-        $sqlInsert = "INSERT INTO users (name, email, password) VALUES ('$regName', '$regEmail', '$password')";
-        mysqli_query($con, $sqlInsert);
+        $stmt = $conn->prepare("INSERT INTO users (name,email, password) VALUES (?, ?, ?)");
+        $stmt->bind_param("sss",$regName, $regEmail, $regPassword);
+        $stmt->execute();
+        $stmt->close();
         header("Location: login.php");
         exit();
     }
@@ -43,7 +46,7 @@ function test_input($data) {
     $data = htmlspecialchars($data);
     return $data;
 }
-mysqli_close($con);
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -54,6 +57,8 @@ mysqli_close($con);
     <title>Register</title>
     <link rel="stylesheet" href="css/form.css">
     <script>
+        
+        
         function validateForm() {
             var regName = document.getElementById("regName").value;
             var regEmail = document.getElementById("regEmail").value;
@@ -72,22 +77,39 @@ mysqli_close($con);
                 return false;
             }
 
+            var nameFormat = /^[a-zA-Z]+[a-zA-Z\s]*?[^0-9]$/;
+            if (!(regName.match(nameFormat))) {
+                document.getElementById("regNameErr").innerText = "Enter a valid name";
+                return false;
+            }
+
             // Validate Email
             if (regEmail === "") {
                 document.getElementById("regEmailErr").innerText = "Email is required";
                 return false;
             }
 
-            // Display server-side email error if it exists
-            var alreadyExist = "<?php echo $regEmailErr; ?>";
-            if (alreadyExist !== "") {
-                document.getElementById("regEmailErr").innerText = alreadyExist;
+            var mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            if(!(regEmail.match(mailFormat)))
+            {
+                document.getElementById("regEmailErr").innerText = "Please enter a valid email";
                 return false;
             }
 
             // Validate Password
             if (regPassword === "") {
                 document.getElementById("regPasswordErr").innerText = "Password is required";
+                return false;
+            }
+            var passStrength = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+            if(!(regPassword.match(passStrength)))
+            {
+                document.getElementById("regPasswordErr").innerText = "Password must contain atleast 8 characters with atleast one uppercase, one lowercase, one digit and one special character.";
+                return false;
+            }
+
+            if(regPassword.length<8){
+                document.getElementById("regPasswordErr").innerText = "Password must be at least 8 characters long";
                 return false;
             }
 
@@ -111,26 +133,26 @@ mysqli_close($con);
 <div id="registration-form" class="container">
     <h2>User Registration</h2>
 
-    <form method="post" action="register.php" onsubmit="return validateForm()">
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" onsubmit="return validateForm()">
         <!-- Registration form fields go here -->
         <label for="regName">Name:</label>
-        <input type="text" name="regName" id="regName" value="">
+        <input type="text" name="regName" id="regName" value="<?php echo $regName; ?>">
         <span class="error" id="regNameErr"></span>
         <br><br>
 
         <label for="regEmail">Email:</label>
-        <input type="text" name="regEmail" id="regEmail" value="">
-        <span class="error" id="regEmailErr"></span>
+        <input type="text" name="regEmail" id="regEmail" value="<?php echo $regEmail; ?>">
+        <span class="error" id="regEmailErr"><?php echo $regEmailErr; ?></span>
         <br><br>
 
 
         <label for="regPassword">Password:</label>
-        <input type="password" name="regPassword" id="regPassword">
+        <input type="password" name="regPassword" id="regPassword" value="<?php echo $regPassword; ?>">
         <span class="error" id="regPasswordErr"></span>
         <br><br>
 
         <label for="confirmPassword">Confirm Password:</label>
-        <input type="password" name="confirmPassword" id="confirmPassword">
+        <input type="password" name="confirmPassword" id="confirmPassword" value="<?php echo $regPassword; ?>">
         <span class="error" id="confirmPasswordErr"></span>
         <br><br>
 
