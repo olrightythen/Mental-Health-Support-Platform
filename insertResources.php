@@ -1,51 +1,52 @@
 <?php
-    $con = mysqli_connect("localhost","root","","mhsp");
-    if(!$con)
-        die ("Connection Failed".mysqli_connect_error());
+$con = mysqli_connect("localhost","root","","mhsp");
 
-    if (isset($_POST['insert'])) {
+if(!$con)
+    die ("Connection Failed".mysqli_connect_error());
 
-        $id = $_POST['id'];
+$idErr="";
 
-        $title = $_POST['title'];
+include 'components/adminnavfixed.php';
 
-        $des = $_POST['description'];
-
-        $link = $_POST['link'];
-
-            $sql = "INSERT INTO `resources` VALUES ('$id','$title','$des','$link')";
-
-            $result = $con->query($sql); 
-
-            if ($result == TRUE) {
-
-                echo "Record added successfully.";
-
-            }else{
-
-                echo "Error:" . $sql . "<br>" . $con->error;
-
-             }
-
+if (isset($_POST['insert'])) {
+    $id = $_POST['id'];
+    $title = $_POST['title'];
+    $des = $_POST['description'];
+    $link = $_POST['link'];
+    
+    //Check if the id is already exists in database
+    $checkId = "SELECT * FROM resources WHERE id = ?";
+    $checkIdStmt = $con->prepare($checkId);
+    $checkIdStmt->bind_param("s", $id);
+    $checkIdStmt->execute();
+    $checkIdResult = $checkIdStmt->get_result();
+    if ($checkIdResult->num_rows > 0) {
+        $idErr = "ID already exist";
     }
+    $checkIdStmt->close();
 
+    if(empty($idErr)){
+    $sql = "INSERT INTO `resources` VALUES ('$id','$title','$des','$link')";
+    $result = $con->query($sql); 
+    $message = "Record added successfully.";
+    }else{
+        $message= "Something went wrong!";
+    }
+}
 ?>
-
-
-<!-- HTML FILE -->
-<html>
-    <head>
-        <link rel="stylesheet" href="insert.css">
-        <title>Insert Resources</title>
-    </head>
-    <body>
-        <h1>Please Enter the Details</h1>
-        <form action="" method="post">
-            <label for="id">ID : </label><input type="number" name="id">
-            <label for="title">Title : </label><input type="text" name="title">
-            <label for="description">Description : </label><input type="text" name="description">
-            <label for="link">Link : </label><input type="text" name="link">
-            <input type="submit" name="insert" value="Add">
-        </form>
-    </body>
+<section class="update">
+    <h1>Please Enter the Details</h1>
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+        <label for="id">ID : </label><input type="number" name="id">
+        <span class="error"><?php echo $idErr; ?></span>
+        <label for="title">Title : </label><input type="text" name="title">
+        <span class="error"></span>
+        <label for="description">Description : </label><input type="text" name="description">
+        <span class="error"></span>
+        <label for="link">Link : </label><input type="text" name="link">
+        <span class="error"></span>
+        <input type="submit" name="insert" value="Add">
+    </form>
+</section>
+</body>
 </html>

@@ -43,7 +43,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"])) {
         // Password is correct, redirect to the home page or perform other actions
         session_start();
         $_SESSION["username"] = $name;
-        header("Location: index.php");
+        $_SESSION["role"] = 1;
+        header("Location: dashboard.php");
         exit();
     } else {
         // Password is incorrect
@@ -69,40 +70,10 @@ mysqli_close($con);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="css/form.css">
-    <script>
-        function validateForm() {
-            var logEmail = document.getElementById("logEmail").value;
-            var logPassword = document.getElementById("logPassword").value;
-
-            // Reset previous error messages
-            document.getElementById("logEmailErr").innerText = "";
-            document.getElementById("logEmailErr").innerText = "";
-
-            // Validate Email
-            if (logEmail === "") {
-                document.getElementById("logEmailErr").innerText = "Email is required";
-                return false;
-            }
-            var mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-            if(!(logEmail.match(mailFormat)))
-            {
-                document.getElementById("logEmailErr").innerText = "Please enter a valid email";
-                return false;
-            }
-
-            // Validate Password
-            if (logPassword === "") {
-                document.getElementById("logPasswordErr").innerText = "Password is required";
-                return false;
-            }
-            
-            return true;
-        }
-    </script> 
 </head>
 <body>
-<div id="login-form" class="container">
-    <h2>User Login</h2>
+    <div id="login-form" class="container">
+        <h2>User Login</h2>
         <form method="post" action="login.php" onsubmit="return validateForm()">
             <!-- Login form fields go here -->
             <label for="logEmail">Email:</label>
@@ -119,8 +90,7 @@ mysqli_close($con);
             <br>
 
             <p>Don't have an account? <a class="toggle-button" href="register.php">Click here</a> to register.</p>
-
         </form>
-</div>
+    </div>
 </body>
 </html>

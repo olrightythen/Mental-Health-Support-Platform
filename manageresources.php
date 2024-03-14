@@ -1,8 +1,10 @@
 <?php
-    $con = mysqli_connect("localhost","root","","mhsp");
-    if(!$con)
-        die ("Connection Failed".mysqli_connect_error());
-    include 'adminnavfixed.php';
+$con = mysqli_connect("localhost","root","","mhsp");
+
+if(!$con)
+    die ("Connection Failed".mysqli_connect_error());
+
+include 'components/adminnavfixed.php';
 ?>
 <section>
 <?php 
@@ -18,7 +20,7 @@
             <th>ID</th>
             <th>Title</th>
             <th>Description</th>
-            <th></th>
+            <th>Action</th>
         </tr>
 <?php       
         // output data of each row
@@ -28,7 +30,7 @@
             <td><?php echo $row['id']; ?></td>
             <?php echo "<td><a href='".$row["link"]."' target='_'>".$row["title"]."</a></td>" ?>
             <td><?php echo $row['description']; ?></td>
-            <td><a class="btn update" target="_blank" href="updateResources.php?id=<?php echo $row['id']; ?>">Update</a>&nbsp;<a class="btn delete" id="<?php echo $row['id']; ?>">Delete</a></td>         
+            <td><a class="btn btnupdate" href="updateResources.php?id=<?php echo $row['id']; ?>">Update</a>&nbsp;<a class="btn btndelete" id="<?php echo $row['id']; ?>">Delete</a></td>         
             </tr> 
 <?php      
         }
@@ -39,16 +41,16 @@ $con->close();
 ?>
 
     </table>
-    <a class="btn add" target="_blank" href="insertResources.php">Add</a>
+    <a class="btn add" href="insertResources.php">Add</a>
 </section>
 <script>
-    var x =document.querySelectorAll(".delete");
+    var x =document.querySelectorAll(".btndelete");
     x.forEach(del => {
         del.addEventListener("click", ()=> {
             var li = del.getAttribute("id");
             var check = confirm("Do you want to delete this data?");
             if(check === true) {
-                let file = "delete.php?id="+li+"&db=resources";
+                let file = "delete.php?id="+li+"&tbl=resources&self=manageresources";
                 window.open(file);
             }
         });

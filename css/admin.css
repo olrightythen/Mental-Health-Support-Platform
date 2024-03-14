@@ -12,6 +12,11 @@ table,tr,th,td {
     border-collapse: collapse;
 }
 
+td{
+    padding: 15px 15px;
+    text-align: center;
+}
+
 a {
     text-decoration: none;
     font-weight: 500;
@@ -44,10 +49,68 @@ a {
     background-color: #4caf50;
 }
 
-.update {
+.btnupdate {
     background-color: rgb(42, 17, 136);
 }
 
-.delete {
+.btndelete {
     background-color: #DF2E38;
+}
+
+/* css for update */
+.update h1 {
+    text-align: center;
+    color: #333;
+}
+
+form {
+    width: 50%;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="number"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+textarea {
+    height: 100px;
+    resize: vertical;
+    resize: none;
+}
+
+input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.1s linear;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+.error {
+    font-family: 'Arial', sans-serif;
+    color: #ff0000;
+    font-size: 14px;
 }

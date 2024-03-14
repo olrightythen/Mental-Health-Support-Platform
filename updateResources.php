@@ -1,34 +1,36 @@
 <?php
-    $con = mysqli_connect("localhost","root","","mhsp");
-    if(!$con)
-        die ("Connection Failed".mysqli_connect_error());
+$con = mysqli_connect("localhost","root","","mhsp");
 
-    if (isset($_POST['update'])) {
+if(!$con)
+    die ("Connection Failed".mysqli_connect_error());
 
-        $id = $_POST['id'];
+include 'components/adminnavfixed.php';
 
-        $title = $_POST['title'];
+if (isset($_POST['update'])) {
 
-        $des = $_POST['description'];
+    $id = $_POST['id'];
 
-        $link = $_POST['link'];
+    $title = $_POST['title'];
 
-        $sql = "UPDATE `resources` SET `title`='$title',`description`='$des',`link`='$link' WHERE `id`='$id'"; 
+    $des = $_POST['description'];
 
-        $result = $con->query($sql); 
+    $link = $_POST['link'];
 
-        if ($result == TRUE) {
+    $sql = "UPDATE `resources` SET `title`='$title',`description`='$des',`link`='$link' WHERE `id`='$id'"; 
 
-            echo "Record updated successfully.";
+    $result = $con->query($sql); 
 
-        }else{
+    if ($result == TRUE) {
 
-            echo "Error:" . $sql . "<br>" . $con->error;
+        echo "Record updated successfully.";
 
-        }
+    }else{
+
+        echo "Error:" . $sql . "<br>" . $con->error;
 
     }
 
+}
 
 if (isset($_GET['id'])) {
 
@@ -50,34 +52,27 @@ if (isset($_GET['id'])) {
 
         }
 ?>
-
-
-<!-- HTML FILE -->
-<html>
-    <head>
-        <link rel="stylesheet" href="update.css">
-        <title>Update Resources</title>
-    </head>
-    <body>
+<section class="update">
+    <div class="container">
         <h1>Please Update the Details</h1>
         <form action="" method="post">
             <label for="id">ID : </label><input type="number" name="id" value="<?php echo $id?>" readonly>
+            <span class="error"></span>
             <label for="title">Title : </label><input type="text" name="title" value="<?php echo $title?>">
-            <label for="description">Description : </label><input type="text" name="description" value="<?php echo $des?>">
+            <span class="error"></span>
+            <label for="description">Description : </label><textarea id="description" name="description" rows="4"><?php echo $des?></textarea>
+            <span class="error"></span>
             <label for="link">Link : </label><input type="text" name="link" value="<?php echo $link?>">
+            <span class="error"></span>
             <input type="submit" name="update" value="Update">
         </form>
-    </body>
+    </div>
+</section>
+</body>
 </html>
-
-
 <?php
-
     } else{ 
-
         header('Location: index.php');
-
     } 
-
 }
 ?> 
