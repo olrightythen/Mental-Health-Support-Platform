@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"])) {
         // Password is correct, redirect to the home page or perform other actions
         session_start();
         $_SESSION["username"] = $name;
-        header("Location: index.php");
+        header("Location: admin.php");
         exit();
     } else {
         // Password is incorrect
@@ -68,7 +68,7 @@ mysqli_close($conn);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login</title>
-    <link rel="stylesheet" href="../css/form.css">
+    <link rel="stylesheet" href="css/form.css">
     <script>
         function validateForm() {
             var logUsername = document.getElementById("logUsername").value;
@@ -97,7 +97,7 @@ mysqli_close($conn);
 <body>
 <div id="login-form" class="container">
     <h2>Admin Login</h2>
-        <form method="post" action="login.php" onsubmit="return validateForm()">
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" onsubmit="return validateForm()">
             <!-- Login form fields go here -->
             <label for="logUsername">Username:</label>
             <input type="text" name="logUsername" id="logUsername" value="<?php echo $logUsername; ?>">
@@ -112,7 +112,7 @@ mysqli_close($conn);
             <input class="submit-button" type="submit" name="login" value="Login">
             <br>
 
-            <p>Not an admin? <a class="toggle-button" href="register.php">Click here</a> for user login.</p>
+            <p>Not an admin? <a class="toggle-button" href="login.php">Click here</a> for user login.</p>
 
         </form>
 </div>

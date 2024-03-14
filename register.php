@@ -1,11 +1,10 @@
 <?php
-
 // Create connection
-$conn = new mysqli("localhost", "root", "", "mhsp");
+$con = new mysqli("localhost", "root", "", "mhsp");
 
 // Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+if ($con->connect_error) {
+    die("Connection failed: " . $con->connect_error);
 }
 
 $regName = $regEmail = $regPassword = $confirmPassword = "";
@@ -18,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["register"])) {
     
     $regEmail = test_input($_POST["regEmail"]);
     $checkEmailQuery = "SELECT * FROM users WHERE email = ?";
-    $checkEmailStmt = $conn->prepare($checkEmailQuery);
+    $checkEmailStmt = $con->prepare($checkEmailQuery);
     $checkEmailStmt->bind_param("s", $regEmail);
     $checkEmailStmt->execute();
     $checkEmailResult = $checkEmailStmt->get_result();
@@ -31,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["register"])) {
     $regPassword = test_input($_POST["regPassword"]);
 
     if (empty($regEmailErr)) {
-        $stmt = $conn->prepare("INSERT INTO users (name,email, password) VALUES (?, ?, ?)");
+        $stmt = $con->prepare("INSERT INTO users (name,email, password) VALUES (?, ?, ?)");
         $stmt->bind_param("sss",$regName, $regEmail, $regPassword);
         $stmt->execute();
         $stmt->close();
@@ -46,7 +45,7 @@ function test_input($data) {
     $data = htmlspecialchars($data);
     return $data;
 }
-$conn->close();
+$con->close();
 ?>
 
 <!DOCTYPE html>
@@ -89,7 +88,7 @@ $conn->close();
                 return false;
             }
 
-            var mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+            var mailFormat = /^[a-zA-Z0-9._%+-]+@[a-zA-Z.-]+\.[a-zA-Z]{2,}$/;
             if(!(regEmail.match(mailFormat)))
             {
                 document.getElementById("regEmailErr").innerText = "Please enter a valid email";

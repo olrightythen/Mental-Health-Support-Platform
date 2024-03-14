@@ -1,9 +1,9 @@
 <?php
 // Create connection
-$conn = mysqli_connect("localhost", "root", "", "mhsp");
+$con = mysqli_connect("localhost", "root", "", "mhsp");
 
 // Check connection
-if (!$conn) {
+if (!$con) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
@@ -21,8 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"])) {
     $logPassword = test_input($_POST["logPassword"]);
 
     // Retrieve hashed password from the database based on the entered Email
-    $sql = "SELECT password FROM users WHERE email = ?";
-    $stmt = $conn->prepare("SELECT password FROM users WHERE email = ?");
+    $stmt = $con->prepare("SELECT password FROM users WHERE email = ?");
     $stmt->bind_param("s", $logEmail);
     $stmt->execute();
     $stmt->bind_result($password);
@@ -33,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"])) {
     $stmt->close();
 
     // Retrieve name from the database based on the entered Email
-    $stmt = $conn->prepare("SELECT name FROM users WHERE email = ?");
+    $stmt = $con->prepare("SELECT name FROM users WHERE email = ?");
     $stmt->bind_param("s", $logEmail);
     $stmt->execute();
     $stmt->bind_result($name);
@@ -61,7 +60,7 @@ function test_input($data) {
 }
 
 // Close the database connection
-mysqli_close($conn);
+mysqli_close($con);
 ?>
 <!DOCTYPE html>
 <html lang="en">
