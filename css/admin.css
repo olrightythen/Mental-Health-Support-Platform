@@ -57,10 +57,16 @@ a {
     background-color: #DF2E38;
 }
 
-/* css for update */
+/* css for update and insert */
 .update h1 {
     text-align: center;
     color: #333;
+}
+
+.success{
+    color: #45a049;
+    margin: 0;
+    padding: 0;
 }
 
 form {
@@ -113,4 +119,53 @@ input[type="submit"]:hover {
     font-family: 'Arial', sans-serif;
     color: #ff0000;
     font-size: 14px;
+}
+
+/* Dashboard */
+.dashboard .container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.dash-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    background-color: gainsboro;
+    margin: 30px;
+    width: 20vw;
+    height: 20vh;
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+.dash-box a {
+    background-color: rgb(42, 17, 136);
+    color: white;
+    width: 50%;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+}
+
+.dash-box a:hover {
+    opacity: 0.9;
+}
+
+@media screen and (max-width:900px){
+.dashboard .container {
+    display: flex;
+    flex-direction: column;
+}
+
+.dash-box {
+    width: 40vw;
+    margin: 10px;
+}
 }

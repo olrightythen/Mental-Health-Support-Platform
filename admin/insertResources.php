@@ -4,15 +4,16 @@ $con = mysqli_connect("localhost","root","","mhsp");
 if(!$con)
     die ("Connection Failed".mysqli_connect_error());
 
-$idErr="";
+$idErr=$message="";
 
-include 'components/adminnavfixed.php';
+include '../components/adminnavfixed.php';
 
 if (isset($_POST['insert'])) {
     $id = $_POST['id'];
     $title = $_POST['title'];
     $des = $_POST['description'];
     $link = $_POST['link'];
+    $cat = $_POST['category'];
     
     //Check if the id is already exists in database
     $checkId = "SELECT * FROM resources WHERE id = ?";
@@ -26,25 +27,28 @@ if (isset($_POST['insert'])) {
     $checkIdStmt->close();
 
     if(empty($idErr)){
-    $sql = "INSERT INTO `resources` VALUES ('$id','$title','$des','$link')";
+    $sql = "INSERT INTO `resources` VALUES ('$id','$title','$cat','$des','$link')";
     $result = $con->query($sql); 
     $message = "Record added successfully.";
     }else{
-        $message= "Something went wrong!";
+        echo "Error:" . $sql . "<br>" . $con->error;
     }
 }
 ?>
 <section class="update">
+    <h3 class="success"><?php echo $message; ?></h3>
     <h1>Please Enter the Details</h1>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
         <label for="id">ID : </label><input type="number" name="id">
-        <span class="error"><?php echo $idErr; ?></span>
+        <span class="error"><?php echo $idErr; ?></span> <br>
         <label for="title">Title : </label><input type="text" name="title">
-        <span class="error"></span>
-        <label for="description">Description : </label><input type="text" name="description">
-        <span class="error"></span>
+        <span class="error"></span> <br>
+        <label for="category">Category : </label><input type="text" name="category">
+        <span class="error"></span> <br>
+        <label for="description">Description : </label><textarea id="description" name="description" rows="4"></textarea>
+        <span class="error"></span> <br>
         <label for="link">Link : </label><input type="text" name="link">
-        <span class="error"></span>
+        <span class="error"></span> <br>
         <input type="submit" name="insert" value="Add">
     </form>
 </section>

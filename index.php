@@ -9,7 +9,7 @@
 <body>
     <header>
         <h1>Mental Health Support Platform</h1>
-        <a href="adminlogin.php" id="admin-login">Admin Login</a>
+        <a href="admin/adminlogin.php" id="admin-login">Admin Login</a>
     </header>
 
     <div id="content">

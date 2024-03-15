@@ -6,7 +6,7 @@ include 'components/navfixed.php'
 ?>
 <section>
 <?php 
-    $sql = "SELECT title, description ,link FROM resources";
+    $sql = "SELECT title, category, description ,link FROM resources";
     $result = $con->query($sql);
 
     if ($result->num_rows > 0) {
@@ -17,6 +17,7 @@ include 'components/navfixed.php'
         <tr>
             <th>S.N.</th>
             <th>Title</th>
+            <th>Category</th>
             <th>Description</th>
         </tr>
 <?php        
@@ -26,6 +27,7 @@ include 'components/navfixed.php'
         echo "<tr>";
         echo "<td>".++$sn."</td>";
         echo "<td><a href='".$row["link"]."' target='_'>".$row["title"]."</a></td>";
+        echo "<td>".$row["category"]."</td>";
         echo "<td>".$row["description"]."</td>";
         echo "</tr>";
         }

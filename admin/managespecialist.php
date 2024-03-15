@@ -4,7 +4,7 @@ $con = mysqli_connect("localhost","root","","mhsp");
 if(!$con)
     die ("Connection Failed".mysqli_connect_error());
 
-include 'components/adminnavfixed.php';
+include '../components/adminnavfixed.php';
 ?>
 <section>
 <?php 
@@ -54,7 +54,7 @@ $con->close();
             var check = confirm("Do you want to delete this data?");
             if(check === true) {
                 let file = "delete.php?id="+li+"&tbl=specialist&self=managespecialist";
-                window.open(file);
+                window.location.replace(file);
         }
         });
 

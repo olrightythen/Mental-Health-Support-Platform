@@ -6,7 +6,7 @@ if(!$con)
 
 $idErr="";
 
-include 'components/adminnavfixed.php';
+include '../components/adminnavfixed.php';
 
     if (isset($_POST['insert'])) {
         $id = $_POST['id'];

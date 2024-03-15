@@ -33,7 +33,7 @@ if ($result->num_rows > 0) {
     echo "</tr>";
     }
 } else {
-    echo "<h2>Oops! It looks like there are no resources available at the moment.</h2>";
+    echo "<h2>Oops! It looks like there are no specialists available at the moment.</h2>";
     echo "<p>Check back later for updates, or feel free to explore other sections of the site.</p>";
 }
 $con->close();

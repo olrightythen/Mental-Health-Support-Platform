@@ -4,11 +4,11 @@ $con = mysqli_connect("localhost","root","","mhsp");
 if(!$con)
     die ("Connection Failed".mysqli_connect_error());
 
-include 'components/adminnavfixed.php';
+include '../components/adminnavfixed.php';
 ?>
 <section>
 <?php 
-    $sql = "SELECT id,title, description ,link FROM resources";
+    $sql = "SELECT id,title,category,description,link FROM resources";
     $result = $con->query($sql);
 
     if ($result->num_rows > 0) {
@@ -19,6 +19,7 @@ include 'components/adminnavfixed.php';
         <tr>
             <th>ID</th>
             <th>Title</th>
+            <th>Category</th>
             <th>Description</th>
             <th>Action</th>
         </tr>
@@ -29,6 +30,7 @@ include 'components/adminnavfixed.php';
             <tr>
             <td><?php echo $row['id']; ?></td>
             <?php echo "<td><a href='".$row["link"]."' target='_'>".$row["title"]."</a></td>" ?>
+            <td><?php echo $row['category']; ?></td>
             <td><?php echo $row['description']; ?></td>
             <td><a class="btn btnupdate" href="updateResources.php?id=<?php echo $row['id']; ?>">Update</a>&nbsp;<a class="btn btndelete" id="<?php echo $row['id']; ?>">Delete</a></td>         
             </tr> 
@@ -51,7 +53,7 @@ $con->close();
             var check = confirm("Do you want to delete this data?");
             if(check === true) {
                 let file = "delete.php?id="+li+"&tbl=resources&self=manageresources";
-                window.open(file);
+                window.location.replace(file);
             }
         });
     });
