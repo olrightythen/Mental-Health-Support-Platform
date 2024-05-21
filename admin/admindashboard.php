@@ -1,35 +1,55 @@
 <?php
-    $con = mysqli_connect("localhost","root","","mhsp");
-    if(!$con)
-        die ("Connection Failed".mysqli_connect_error());
-    include '../components/adminnavfixed.php';
+// Include the file for database configuration if necessary
+// include 'db_config.php';
+
+// Function to get the number of rows in a table
+function getRowCount($con, $table)
+{
+    $sql = "SELECT COUNT(*) AS count FROM $table";
+    $stmt = $con->prepare($sql);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $count = $row['count'];
+    $stmt->close();
+    return $count;
+}
+
+// Establish database connection
+$con = new mysqli("localhost", "root", "", "mhsp");
+
+// Check connection
+if ($con->connect_error) {
+    die("Connection failed: " . $con->connect_error);
+}
+
+// Include the navigation component
+include '../components/adminnavfixed.php';
+
 ?>
+
 <section class="dashboard">
-        <h1>Welcome Back, <?php echo $_SESSION["username"] ?>!</h1>
+    <h1>Welcome Back, <?php echo $_SESSION["username"] ?>!</h1>
     <div class="container">
-        <div class="dash-box">
-            <h3>Number of Registered Users : <?php number("users") ?></h3>
-            <a href="manageusers.php">Users</a>
-        </div>
-        <div class="dash-box">
-            <h3>Number of Resources : <?php number("resources") ?></h3>
-            <a href="manageresources.php">Resources</a>
-        </div>
-        <div class="dash-box">
-            <h3>Number of Specialists : <?php number("specialist") ?></h3>
-            <a href="managespecialist.php">Specialists</a>
-        </div>
+        <a href="manageusers.php" class="dash-box">
+            <h3>Number of Registered Users : <?php echo getRowCount($con, "users"); ?></h3>
+            <img src="../images/users.png" alt="users">
+        </a>
+        <a href="manageresources.php" class="dash-box">
+            <h3>Number of Resources : <?php echo getRowCount($con, "resources"); ?></h3>
+            <img src="../images/resources.png" alt="resources">
+        </a>
+        <a href="managespecialist.php" class="dash-box">
+            <h3>Number of Specialists : <?php echo getRowCount($con, "specialist"); ?></h3>
+            <img src="../images/specialist.png" alt="specialist">
+        </a>
     </div>
 </section>
+</body>
 
+</html>
 
-<?php 
-    function number($id) {
-        $con = mysqli_connect("localhost","root","","mhsp");
-        $sql = "SELECT * FROM $id";
-        $result = mysqli_query($con, $sql);
-        $num = mysqli_num_rows($result);
-        echo $num;
-        mysqli_close($con);
-    }
+<?php
+// Close the database connection
+$con->close();
 ?>

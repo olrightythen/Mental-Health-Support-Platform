@@ -1,89 +1,164 @@
 body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-image: url('../images/bg1.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    backdrop-filter: blur(5px);
-    height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  background-color: #f0fff3;
+  min-height: 100vh;
 }
 
-header {
-    background-color: rgba(0, 0, 0, 0.175);
-    backdrop-filter: blur(10px);
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: transparent;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 0 0 10px 10px;
+  padding: 20px;
 }
 
-header h1 {
-    color: 	#d7f4ff;
-    margin: 0;
-    font-size: 1.8em;
+.logo-container {
+  display: flex;
+  align-items: center;
 }
 
-header a {
-    color: #fff;
-    text-decoration: none;
-    margin-left: 20px;
-    font-weight: bold;
-    font-size: 1.2em;
+.logo {
+  font-size: 30px;
+  font-weight: bold;
+  color: #2dcf57;
+  text-transform: uppercase;
+  margin-right: 10px;
 }
 
-#content {
-    text-align: center;
-    padding: 100px 20px;
+.auth-buttons {
+  display: flex;
+}
+.login-btn,
+.signup-btn {
+  padding: 10px 20px;
+  margin-left: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  font-size: 20px;
+  font-weight: bold;
+}
+.login-btn {
+  background-color: #ffffff;
 }
 
-#content h1 {
-    font-size: 3em;
-    color: #ee4b2b;
-    margin-bottom: 20px;
+.login-btn a {
+  text-decoration: none;
+  color: #2dcf57;
 }
 
-#content p {
-    font-size: 1.2em;
-    color: 	#f4562f;
-    margin-bottom: 40px;
+.login-btn:hover {
+  background-color: #e8ffee;
 }
 
+.signup-btn {
+  background-color: #2dcf57;
+  color: #ffffff;
+}
+
+.signup-btn a {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.signup-btn:hover {
+  background-color: #24a545;
+}
+.main-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40px;
+  padding: 0 40px;
+}
+.text-content h1 {
+  font-size: 60px;
+  color: #333;
+  margin-bottom: 20px;
+}
+.text-content p {
+  color: #666;
+  font-size: 18px;
+  line-height: 1.6;
+  max-width: 550px;
+}
 .buttons {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
 }
 
 .buttons a {
-    display: inline-block;
-    padding: 15px 30px;
-    margin: 0 20px;
-    text-decoration: none;
-    color: #444;
-    font-size: 1.2em;
-    font-weight: bold;
-    background-color: #00FFAB;
-    border-radius: 5px;
-    transition: background-color 0.3s;
+  text-decoration: none;
 }
 
-.buttons a:hover {
-    background-color: #14C38E;
+.appointment-btn,
+.specialist-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: bold;
+  transition: background-color 0.3s, color 0.3s;
+}
+.appointment-btn {
+  background-color: #2dcf57;
+  color: #ffffff;
+  border: 2px solid #2dcf57;
 }
 
-#admin-login {
-    position: absolute;
-    backdrop-filter: blur(10px);
-    top: 10px;
-    right: 10px;
-    background-color: #211C6A;
-    padding: 5px 10px;
-    border-radius: 5px;
-    text-decoration: none;
-    color: #fff;
-    
+.appointment-btn:hover {
+  background-color: #24a545;
 }
 
-#admin-login:hover {
-    background-color: #c0392b;
+.specialist-btn {
+  background-color: #ffffff;
+  color: #2dcf57;
+  border: 2px solid #2dcf57;
+}
+.specialist-btn:hover {
+  background-color: #e8ffee;
+}
+
+.login-btn a {
+  text-decoration: none;
+  color: #2dcf57;
+}
+
+.signup-btn a {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .header,
+  .main-content {
+    flex-direction: column;
+  }
+  .nav-link {
+    margin: 10px;
+  }
+  .auth-buttons {
+    margin-top: 10px;
+  }
+  .main-content {
+    margin-top: 20px;
+  }
+  .text-content h1 {
+    font-size: 28px;
+  }
+  .buttons {
+    flex-direction: column;
+  }
+  .appointment-btn,
+  .specialist-btn {
+    width: 100%;
+  }
 }

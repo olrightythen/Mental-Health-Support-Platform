@@ -1,5 +1,13 @@
 <?php
 // Create connection
+session_start();
+
+if (isset($_SESSION['role']) && $_SESSION['role'] === 0) {
+    // User is logged in, redirect to the welcome page
+    header("Location: admindashboard.php");
+    exit;
+}
+
 $conn = mysqli_connect("localhost", "root", "", "mhsp");
 
 // Check connection
@@ -39,9 +47,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"])) {
     $stmt->fetch();
     $stmt->close();
     // Verify the entered password against the  password
-    if ($logPassword===$Password) {
+    if ($logPassword === $Password) {
         // Password is correct, redirect to the home page or perform other actions
-        session_start();
         $_SESSION["username"] = $name;
         $_SESSION["role"] = 0;
         header("Location: admindashboard.php");
@@ -53,7 +60,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"])) {
 }
 
 // Function to sanitize user input
-function test_input($data) {
+function test_input($data)
+{
     $data = trim($data);
     $data = stripslashes($data);
     $data = htmlspecialchars($data);
@@ -65,15 +73,26 @@ mysqli_close($conn);
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login</title>
-    <link rel="stylesheet" href="../css/form.css"> 
+    <link rel="shortcut icon" href="./images/favion.png" type="image/x-icon">
+    <link rel="stylesheet" href="../css/form.css">
 </head>
+
 <body>
-    <div id="login-form" class="container">
-        <h2>Admin Login</h2>
+    <header class="admin-header">
+        <div class="logo-container">
+            <div class="logo">
+                Mental Health Support Platform
+            </div>
+        </div>
+    </header>
+    <main>
+        <div id="login-form" class="form-container">
+            <h2>Admin Login</h2>
             <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" onsubmit="return validateForm()">
                 <!-- Login form fields go here -->
                 <label for="logUsername">Username:</label>
@@ -89,9 +108,9 @@ mysqli_close($conn);
                 <input class="submit-button" type="submit" name="login" value="Login">
                 <br>
 
-                <p>Not an admin? <a class="toggle-button" href="login.php">Click here</a> for user login.</p>
             </form>
-    </div>
+        </div>
+    </main>
     <script>
         function validateForm() {
             var logUsername = document.getElementById("logUsername").value;
@@ -112,9 +131,10 @@ mysqli_close($conn);
                 document.getElementById("logPasswordErr").innerText = "Password is required";
                 return false;
             }
-            
+
             return true;
         }
     </script>
 </body>
+
 </html>

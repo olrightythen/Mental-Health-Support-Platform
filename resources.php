@@ -4,7 +4,7 @@ if(!$con)
     die ("Connection Failed".mysqli_connect_error());
 include 'components/navfixed.php'
 ?>
-<section>
+<section class="table-section">
 <?php 
     $sql = "SELECT title, category, description ,link FROM resources";
     $result = $con->query($sql);

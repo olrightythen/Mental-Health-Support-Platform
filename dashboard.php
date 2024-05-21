@@ -2,8 +2,8 @@
 include 'components/navfixed.php';
 ?>
 <section>
-    <h2>Welcome, <?php echo $_SESSION["username"]; ?>!</h2>
-    
+    <h1>Welcome, <?php echo $_SESSION["username"]; ?>!</h1>
+
     <div>
         <h3>Featured Resources</h3>
         <p>Explore our curated collection of resources to support your mental health:</p>
@@ -37,4 +37,5 @@ include 'components/navfixed.php';
     <p>Feel free to navigate through the links in the sidebar to explore different sections of the platform.</p>
 </section>
 </body>
+
 </html>

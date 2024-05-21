@@ -17,6 +17,7 @@ if ($result->num_rows > 0) {
             <th>I.D.</th>
             <th>Name</th>
             <th>Email</th>
+            <th>Action</th>
         </tr>
 <?php
     // output data of each row
@@ -25,6 +26,7 @@ if ($result->num_rows > 0) {
     echo "<td>".$row["id"]."</td>";
     echo "<td>".$row["name"]."</td>";
     echo "<td>".$row["email"]."</td>";
+    echo "<td><a class='btn btndelete' id=".$row['id'].">Delete</a></td>";
     echo "</tr>";
     }
 } else {
@@ -34,5 +36,18 @@ $con->close();
 ?>
     </table>
 </section>
+<script>
+    var x =document.querySelectorAll(".btndelete");
+    x.forEach(del => {
+        del.addEventListener("click", ()=> {
+            var li = del.getAttribute("id");
+            var check = confirm("Do you want to delete this user?");
+            if(check === true) {
+                let file = "delete.php?id="+li+"&tbl=users&self=manageusers";
+                window.location.replace(file);
+            }
+        });
+    });
+</script>
 </body>
 </html>

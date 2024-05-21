@@ -1,10 +1,10 @@
 <?php
-$con = mysqli_connect("localhost","root","","mhsp");
+$con = mysqli_connect("localhost", "root", "", "mhsp");
 
-if(!$con)
-    die ("Connection Failed".mysqli_connect_error());
+if (!$con)
+    die("Connection Failed" . mysqli_connect_error());
 
-$idErr=$message="";
+$idErr = $message = "";
 
 include '../components/adminnavfixed.php';
 
@@ -14,7 +14,7 @@ if (isset($_POST['insert'])) {
     $des = $_POST['description'];
     $link = $_POST['link'];
     $cat = $_POST['category'];
-    
+
     //Check if the id is already exists in database
     $checkId = "SELECT * FROM resources WHERE id = ?";
     $checkIdStmt = $con->prepare($checkId);
@@ -26,17 +26,20 @@ if (isset($_POST['insert'])) {
     }
     $checkIdStmt->close();
 
-    if(empty($idErr)){
-    $sql = "INSERT INTO `resources` VALUES ('$id','$title','$cat','$des','$link')";
-    $result = $con->query($sql); 
-    $message = "Record added successfully.";
-    }else{
-        echo "Error:" . $sql . "<br>" . $con->error;
+    if (empty($idErr)) {
+        $sql = "INSERT INTO `resources` VALUES ('$id','$title','$cat','$des','$link')";
+        $result = $con->query($sql);
+        if ($result == TRUE) {
+            header("Location: manageresources.php?status=inserted");
+            exit;
+        } else {
+            echo "<script>alert('Something went wrong!')</script>";
+        }
     }
 }
 ?>
 <section class="update">
-    <h3 class="success"><?php echo $message; ?></h3>
+    <button class="back-button" onclick="history.back()">&lt; Go Back </button>
     <h1>Please Enter the Details</h1>
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
         <label for="id">ID : </label><input type="number" name="id">
@@ -53,4 +56,5 @@ if (isset($_POST['insert'])) {
     </form>
 </section>
 </body>
+
 </html>
