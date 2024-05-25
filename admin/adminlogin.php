@@ -34,28 +34,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"])) {
     $stmt->execute();
     $stmt->bind_result($Password);
     $stmt->fetch();
-    if ($stmt->num_rows > 0) {
-        $logPasswordErr = "Wrong Username or password";
-    }
     $stmt->close();
 
-    // Retrieve name from the database based on the entered username
-    $stmt = $conn->prepare("SELECT name FROM admins WHERE username = ?");
-    $stmt->bind_param("s", $logUsername);
-    $stmt->execute();
-    $stmt->bind_result($name);
-    $stmt->fetch();
-    $stmt->close();
     // Verify the entered password against the  password
     if ($logPassword === $Password) {
         // Password is correct, redirect to the home page or perform other actions
-        $_SESSION["username"] = $name;
+        $_SESSION["username"] = $logUsername;
         $_SESSION["role"] = 0;
         header("Location: admindashboard.php");
         exit();
     } else {
         // Password is incorrect
-        $logPasswordErr = "Incorrect password";
+        $logPasswordErr = "Invalid username or password";
     }
 }
 
@@ -78,7 +68,7 @@ mysqli_close($conn);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login</title>
-    <link rel="shortcut icon" href="./images/favion.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../images/favion.png" type="image/x-icon">
     <link rel="stylesheet" href="../css/form.css">
 </head>
 

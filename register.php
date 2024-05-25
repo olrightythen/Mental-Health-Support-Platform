@@ -177,7 +177,7 @@ $con->close();
                     if (!(regPassword.match(passStrength))) {
                         errors.push({
                             id: "regPasswordErr",
-                            msg: "Password must include at least one uppercase, one lowercase, one digit and one special character."
+                            msg: "Password must include at least one uppercase letter, one lowercase letter, one digit and one special character."
                         });
                     }
                 }

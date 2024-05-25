@@ -10,9 +10,15 @@ include '../components/adminnavfixed.php';
     <?php
     $_GET['status'] = isset($_GET['status']) ? $_GET['status'] : "";
     if ($_GET['status'] == "updated") {
-        echo "<script>alert('Record updated successfully.')</script>";
+        echo "<script>
+                alert('Record updated successfully.');
+                window.history.replaceState(null, null, window.location.pathname);
+              </script>";
     } else if ($_GET['status'] == "inserted") {
-        echo "<script>alert('Record inserted successfully.')</script>";
+        echo "<script>
+                alert('Record inserted successfully.');
+                window.history.replaceState(null, null, window.location.pathname);
+              </script>";
     }
     $sql = "SELECT id,title,category,description,link FROM resources";
     $result = $con->query($sql);

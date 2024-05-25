@@ -1,7 +1,4 @@
 <?php
-// Include the file for database configuration if necessary
-// include 'db_config.php';
-
 // Function to get the number of rows in a table
 function getRowCount($con, $table)
 {
@@ -29,7 +26,7 @@ include '../components/adminnavfixed.php';
 ?>
 
 <section class="dashboard">
-    <h1>Welcome Back, <?php echo $_SESSION["username"] ?>!</h1>
+    <h1>Welcome Back, Admin</h1>
     <div class="container">
         <a href="manageusers.php" class="dash-box">
             <h3>Number of Registered Users : <?php echo getRowCount($con, "users"); ?></h3>
