@@ -23,7 +23,6 @@
 - [Project Structure](#project-structure)
 - [Technologies Used](#technologies-used)
 - [Contributing](#contributing)
-- [License](#license)
 
 ## 🌟 About
 
@@ -82,26 +81,26 @@ To make mental health support accessible, reduce stigma, and create a safe space
 
 ### Landing Page
 
-_Modern, welcoming design that encourages users to seek help_
+<img src="images/landing_page.png" alt="Landing Page" width="600">
 
 ### User Dashboard
 
-_Personalized dashboard with quick access to resources and specialists_
+<img src="images/user_dashboard.png" alt="User Dashboard" width="600">
 
 ### Community Platform
 
-_Safe space for sharing experiences and supporting each other_
+<img src="images/community_platform.png" alt="Community Platform" width="600">
 
 ### Admin Panel
 
-_Comprehensive management interface for platform administration_
+<img src="images/admin_panel.png" alt="Admin Panel" width="600">
 
 ## 🚀 Installation
 
 ### Prerequisites
 
 - **XAMPP** (Apache, MySQL, PHP)
-- **Web Browser** (Chrome, Firefox, Safari, etc.)
+- **Web Browser** (Brave, Chrome, Edge, etc.)
 - **Text Editor/IDE** (VS Code, Sublime Text, etc.)
 
 ### Step-by-Step Setup
@@ -271,12 +270,6 @@ We welcome contributions to improve the Mental Health Support Platform! Here's h
 
 ## 🏥 Mental Health Resources
 
-### Emergency Contacts
-
-- **National Suicide Prevention Lifeline**: 988
-- **Crisis Text Line**: Text HOME to 741741
-- **Emergency Services**: 911
-
 ### Professional Help
 
 If you're experiencing mental health challenges, please consider reaching out to:
@@ -285,10 +278,6 @@ If you're experiencing mental health challenges, please consider reaching out to
 - Mental health professionals in your area
 - Your healthcare provider
 - Mental health hotlines
-
-## 📜 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
