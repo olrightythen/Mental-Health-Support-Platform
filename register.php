@@ -36,10 +36,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["register"])) {
     $checkEmailStmt->close();
 
     $regPassword = test_input($_POST["regPassword"]);
+    $hashedPassword = password_hash($regPassword, PASSWORD_DEFAULT);
 
     if (empty($regEmailErr)) {
         $stmt = $con->prepare("INSERT INTO users (name,email, password) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $regName, $regEmail, $regPassword);
+        $stmt->bind_param("sss", $regName, $regEmail, $hashedPassword);
         $stmt->execute();
         $stmt->close();
         header("Location: login.php");

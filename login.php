@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["login"])) {
     $stmt->close();
 
     // Verify the entered password against the password from database
-    if ($logPassword == $password) {
+    if (password_verify($logPassword, $password)) {
         // Password is correct, redirect to the home page or perform other actions
         session_start();
         $_SESSION["username"] = $name;

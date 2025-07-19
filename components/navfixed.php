@@ -50,6 +50,8 @@ function activePage($page)
         <h1>Mental Health Support Platform</h1>
     </header>
 
+    <div class="nav-fixed">
+       
     <nav id="nav">
         <a href="dashboard.php" <?php activePage('dashboard.php'); ?>>Dashboard</a>
         <a href="resources.php" <?php activePage('resources.php'); ?>>Resources</a>

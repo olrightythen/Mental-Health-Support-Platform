@@ -143,7 +143,7 @@ if (isset($_POST['insert'])) {
                 msg: "Link is required"
             });
         } else {
-            let linkFormat = /^(?:((A-Za-z)+):)?(\/(0,3))((0-9.\-A-Za-z)+) (?::(\d+))?(?:\/((^?#)))?(?:\?((^#)))?(?:#(.*))?$/;
+            let linkFormat = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/gi;
             if (!(link.match(linkFormat))) {
                 errors.push({
                     id: "linkErr",
